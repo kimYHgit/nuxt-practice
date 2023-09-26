@@ -53,6 +53,7 @@ Webpack
 **Nuxt 키워드**
 
 - [extension] Vue Language Features (volar)
+- [extension] Vue VSCodes Snippets
 - ㅇㄴ
 - ㅇㄴ
 - ㅇㄴ
@@ -67,7 +68,7 @@ Nuxt 기초 / 데이터 가져오기 / 라우팅 처리 / tailwindcss / 서버�
 > static-site-generator , node , vue , universal , ssr
 > nuxt , full-stack , server-rendering , csr , hybrid , ssg , SEO
 
-**Isomorphic JavaScript**
+> **Isomorphic JavaScript**
 
 - 프론트엔드와 백엔드에서 모두 사용 가능한 Universal JavaScript
 - JavaScript는 서버 개발자가 화면 구현을 위해 템플릿 언어와 함께 일부 사용하던 언어에 불과했음.
@@ -97,10 +98,29 @@ CSN -> **PreFetch & Hydration**
   기존의 SPA와 동일한 동작과 반응성을 보장할 수 있게 된다.
   불완전한 HTML 파일이라는 '마른 땅'에 자바스크립트라는 '물'을 뿌리는 일이다.
 
-> SSR
+> **SSR**
 
 - 첫 페이지를 렌더링 된 상태로 응답해주는 것
 - SPA 특성상 내용이 없는 빈 html에 번들링 된 js가 실행되면서 내용물들이 렌더링이 되기 전까지 사용자는 빈 화면만 보고 있어야 하고 js를 실행하지 못하는 검색엔진 등도 해당 페이지의 내용물을 알지 못함.
+
+> **컴포넌트와 컴포저블**
+
+- 컴포넌트는 UI 요소를 정의하고 구성하는 데 사용
+- 컴포저블은 코드 재사용과 로직 분리를 위한 도구로 사용
+
+Composition API를 통해 컴포넌트의 로직을 컴포저블로 분리하고, 컴포넌트에서 이러한 컴포저블을 가져와 사용할 수 있습니다.
+
+1. 컴포넌트 (Components):
+
+   - 컴포넌트는 Vue 애플리케이션의 UI를 구성하는 블록 단위입니다.
+   - 컴포넌트는 Vue 컴포넌트 인스턴스로 정의되며, 데이터, 메서드, 라이프사이클 훅, 템플릿 등을 포함할 수 있습니다.
+   - 컴포넌트는 Vue 인스턴스로부터 상속된 옵션을 사용하여 정의되며, 이러한 컴포넌트는 재사용 가능하며, 여러 곳에서 사용될 수 있습니다.
+
+2. 컴포저블 (Composition API):
+   - 컴포저블은 Vue 3에서 도입된 새로운 방식의 코드 구성 방법입니다.
+   - 컴포저블은 컴포넌트의 로직을 논리적인 단위로 분리하고 재사용 가능한 모듈로 만드는 데 사용됩니다.
+   - 컴포저블은 Vue 3의 Composition API를 사용하여 작성되며, 단일 파일 컴포넌트의 `<script>` 섹션 내에서 정의됩니다.
+   - 컴포저블을 사용하면 컴포넌트의 코드를 더 작고 읽기 쉽게 유지하고, 로직을 재사용하기 용이하게 만들 수 있습니다.
 
 ### 링크 참고
 
@@ -195,4 +215,148 @@ npm run dev
     <h1>Hi!</h1>
   </div>
 </template>
+```
+
+### **페이지 구성 & 경로 라우팅**
+
+- https://nuxt.com/docs/getting-started/routing
+- pages 폴더 생성
+- 특정 URL에 Mapping 되어 그려질 Component들이 담기는 곳.
+- app.vue 삭제 , pages 폴더 추가
+- pages 폴더에 index.vue , about.vue 파일 추가
+- v base 3 setup 스니펫 사용
+
+> index.vue , about.vue
+
+```javascript
+<template>
+  <div>
+    <h2>Home</h2>
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae earum
+      numquam sapiente. Pariatur, provident blanditiis omnis molestiae quaerat
+      eum! Maiores ut ratione tempore. Aut error accusamus dolore distinctio
+      velit! Assumenda.
+    </p>
+  </div>
+</template>
+
+<script setup></script>
+
+<style scoped>
+h2 {
+  margin-bottom: 20px;
+  font-size: 36px;
+}
+p {
+  margin: 20px 0;
+}
+</style>
+
+```
+
+pages 폴더 내의 모든 Vue 파일은 파일의 내용을 표시하는 해당 URL(또는 경로)을 생성합니다.
+예를들어 pages폴더 내에 products 라는 폴더를 만들면 해당 폴더이름으로 경로를 자동으로 생성합니다.
+
+- pages폴더 내 products폴더
+- 경로 : /products
+
+products폴더의 하위 경로를 구성하려면 경로이름에 맞는 새로운 vue 파일을 생성하면됨.
+
+- products폴더 내 item.vue 파일
+- 경로 : /products/item
+
+**useRoute() 컴포저블을 이용한 매개변수 경로 라우팅 처리**
+
+- useRoute().params 메서드를 이용하면 매개변수가 포함된 동적 경로의 라우팅 처리도 가능하다.
+
+```
+pages/
+--| about.vue
+--| index.vue
+--| products/
+----| index.vue
+----| item.vue
+----| [id].vue
+```
+
+사용자 ID를 매개변수로 받는 경로를 구성해보자
+
+경로 : /products/:id
+
+**[id].vue 파일 생성**
+
+- 파일 이름을 **대괄호로** 감싼다.
+- 파일 이름은 매개변수로 사용할 이름을 입력한다.
+
+> [id].vue
+
+```javascript
+<template>
+  <div>
+    <p>
+      Prduct Details for <b>{{ id }}</b>
+    </p>
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
+  </div>
+</template>
+
+<script setup>
+const { id } = useRoute().params;
+</script>
+
+<style scoped></style>
+
+```
+
+- template에 **이중 중괄호로** 매개변수를 감싼다.
+- script 태그에 해당 코드 추가
+
+```javascript
+// 객체 구조분해할당
+const { id } = useRoute().params;
+```
+
+매개변수 validation은....?
+
+**NuxtLink 컴포넌트를 활용한 링크 처리**
+
+- https://nuxt.com/docs/api/components/nuxt-link
+- Vue Router's "RouterLink" component and HTML's "a" tag.
+
+Nuxt에서 제공하는 NuxtLink 컴포넌트를 사용하면 효율적으로 네비게이션을 구현할수있다.
+
+pages폴더 index.vue 의 template 코드를 수정한다.
+
+> pages/index.vue
+
+```javascript
+<template>
+  <div>
+    <h2>Home</h2>
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae earum
+      numquam sapiente. Pariatur, provident blanditiis omnis molestiae quaerat
+      eum! Maiores ut ratione tempore. Aut error accusamus dolore distinctio
+      velit! Assumenda.
+    </p>
+    <div>
+      <header>
+        <nav>
+          <NuxtLink to="/">Nuxt Project</NuxtLink>
+          <ul>
+            <li><NuxtLink to="/">Home</NuxtLink></li>
+            <li><NuxtLink to="/about">About</NuxtLink></li>
+            <li><NuxtLink to="/products">Products</NuxtLink></li>
+          </ul>
+          <a href="/about"> normal link - anchor tag </a>
+        </nav>
+      </header>
+    </div>
+  </div>
+</template>
+<!-- 앵커 태그와 nuxtlink 차이는?
+서버의 요청을 가로채서 필요한 부분만 렌더링
+앵커태그는 서버로 다시 요청한다.
+-->
 ```
