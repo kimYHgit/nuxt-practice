@@ -486,3 +486,142 @@ p {
 ```
 
 > **pages/products 폴더내 모든 vue 파일에 script 적용**
+
+```javascript
+
+<script setup>
+definePageMeta({
+  layout: "products",
+});
+</script>
+
+```
+
+### Module - tailwindCSS 사용
+
+---
+
+- https://nuxt.com/modules/
+
+```
+PS C:\Workspace\uvc\nuxt3-practice\nuxt-practice> npm run dev
+
+> dev
+> nuxt dev
+
+Nuxt 3.7.4 with Nitro 2.6.3                                                                                                                   오후 5:55:05
+[get-port] Unable to find an available port (tried 3000-3100 on host "localhost"). Using alternative port 3001                                오후 5:55:05
+                                                                                                                                              오후 5:55:05
+  ➜ Local:    http://localhost:3001/
+  ➜ Network:  use --host to expose
+
+ℹ Using default Tailwind CSS file                                                                                           nuxt:tailwindcss 오후 5:55:08
+✔ Nuxt DevTools enabled (v0.8.5), press Shift + Alt + D in app to open  (experimental)                                                       오후 5:55:10
+ℹ Tailwind Viewer: http://localhost:3001/_tailwind/                                                                         nuxt:tailwindcss 오후 5:55:10
+
+ WARN                                                                                                                                         오후 5:55:13
+
+
+[오후 5:55:13]  WARN  warn - No utility classes were detected in your source files. If this is unexpected, double-check the content option in your Tailwind CSS configuration.
+
+
+ WARN  warn - https://tailwindcss.com/docs/content-configuration
+```
+
+**1. @nuxtjs/tailwindcss dependency 추가한다.**
+
+```bash
+# Using npm
+npm install --save-dev @nuxtjs/tailwindcss
+
+```
+
+**2. nuxt.config.ts 파일에 해당 프로퍼티 추가**
+
+```bash
+{
+  modules: [
+    '@nuxtjs/tailwindcss'
+  ]
+}
+```
+
+3. **layouts/default.vue , products.vue 코드 수정 [클래스 적용]**
+
+> **default.vue**
+
+```javascript
+<template>
+  <div>
+    <header class="shadow-sm bg-white">
+      <nav class="container mx-auto p-4 flex justify-between">
+        <NuxtLink to="/" class="font-bold">Nuxt Project</NuxtLink>
+        <ul class="flex gap-4">
+          <li><NuxtLink to="/">Home</NuxtLink></li>
+          <li><NuxtLink to="/about">About</NuxtLink></li>
+          <li><NuxtLink to="/products">Products</NuxtLink></li>
+        </ul>
+      </nav>
+    </header>
+  </div>
+  <!-- output the page content -->
+  <!-- 페이지 구성이 slot으로 처리됨. -->
+  <div class="container mx-auto p-4">
+    <slot />
+  </div>
+</template>
+```
+
+> **products.vue**
+
+```javascript
+<template>
+  <div>
+    <header class="shadow-sm bg-white">
+      <nav class="container mx-auto p-4">
+        <NuxtLink to="/products" class="font-bold">
+          Nuxt Project items
+        </NuxtLink>
+      </nav>
+    </header>
+    <div class="container mx-auto p-4">
+      <slot />
+    </div>
+    <footer class="container mx-auto p-4 flex justify-between border-t-2">
+      <ul class="flex gap-4">
+        <li>
+          <NuxtLink to="/">Home</NuxtLink>
+        </li>
+        <li>
+          <NuxtLink to="/about">About</NuxtLink>
+        </li>
+        <li>
+          <NuxtLink to="/products">Products</NuxtLink>
+        </li>
+      </ul>
+    </footer>
+  </div>
+</template>
+```
+
+**assets/css폴더 추가및 tailwind.css 파일 작성**
+
+> assets/css/tailwind.css
+
+- 폴더구조상 assets하위 폴더로 css가 들어가야 클래스 인식함.
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-50;
+}
+
+@layer components {
+  .btn {
+    @apply bg-[#12b488] text-white px-3 py-2 rounded-md text-sm text-white;
+  }
+}
+```
