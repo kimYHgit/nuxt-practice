@@ -625,3 +625,50 @@ body {
   }
 }
 ```
+
+### useFetch API를 이용한 데이터 가져오기
+
+---
+
+- https://nuxt.com/docs/getting-started/data-fetching#usefetch
+- https://nuxt.com/docs/api/composables/use-fetch#usefetch
+
+Nuxt에는 브라우저 또는 서버 환경에서 데이터 불러오기를 수행할 수 있는 두 가지 컴포저블과 내장 라이브러리인 useFetch, useAsyncData 및 $fetch가 포함되어 있습니다.
+이 라이브러리를 함께 사용하면 환경 간 호환성과 효율적인 캐싱을 보장하고 중복 네트워크 호출을 방지할 수 있습니다.
+
+useFetch는 컴포넌트 설정 함수에서 데이터 불러오기를 처리하는 가장 간단한 방법입니다.
+
+반면에 사용자 상호작용을 기반으로 네트워크 요청을 하고자 할 때는 거의 항상 $fetch가 적합한 핸들러입니다.
+
+보다 세분화된 제어가 필요한 경우, useAsyncData와 $fetch 컴포저블을 독립적으로 사용할 수 있습니다.
+
+**상품 목록을 구성할 데이터를 받아오는 API 서버는 다음을 활용한다.**
+**https://fakestoreapi.com/**
+
+**전체 상품의 정보를 나타내기**
+
+> **pages/products/index.vue**
+
+```javascript
+<template>
+  <div>
+    <div class="grid grid-cols-4 gap-5">
+      <div v-for="p in products">
+        <NuxtLink :to="`/products/${p.id}`">{{ p.title }}</NuxtLink>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+definePageMeta({
+  layout: "products",
+});
+
+//fetch products data.
+const { data: products } = await useFetch("https://fakestoreapi.com/products");
+</script>
+
+<style scoped></style>
+
+```
