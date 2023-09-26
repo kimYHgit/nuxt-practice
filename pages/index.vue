@@ -7,25 +7,8 @@
       eum! Maiores ut ratione tempore. Aut error accusamus dolore distinctio
       velit! Assumenda.
     </p>
-    <div>
-      <header>
-        <nav>
-          <NuxtLink to="/">Nuxt Project</NuxtLink>
-          <ul>
-            <li><NuxtLink to="/">Home</NuxtLink></li>
-            <li><NuxtLink to="/about">About</NuxtLink></li>
-            <li><NuxtLink to="/products">Products</NuxtLink></li>
-          </ul>
-          <a href="/about"> normal link - anchor tag </a>
-        </nav>
-      </header>
-    </div>
   </div>
 </template>
-<!-- 앵커 태그와 nuxtlink 차이는? 
-서버의 요청을 가로채서 필요한 부분만 렌더링
-앵커태그는 서버로 다시 요청한다.
--->
 
 <script setup></script>
 

@@ -360,3 +360,129 @@ pages폴더 index.vue 의 template 코드를 수정한다.
 앵커태그는 서버로 다시 요청한다.
 -->
 ```
+
+### 레이아웃
+
+---
+
+- https://nuxt.com/docs/guide/directory-structure/layouts
+- 애플리케이션 전체에서 사용할 수 있는 사용자 정의 요소
+- 재사용 가능한 일반적인 UI 또는 코드 패턴
+
+**슬롯**
+
+- 부모 컴포넌트가 자식 컴포넌트에게 콘텐츠를 전달할 수 있는 메커니즘을 제공.
+- 이를 통해 부모 컴포넌트에서 자식 컴포넌트로 동적으로 콘텐츠를 주입하거나 자식 컴포넌트의 일부 영역에 커스텀 마크업을 제공할 수 있음.
+
+**레이아웃 작성**
+
+1. 루트 폴더에 layouts 폴더 생성한다.
+2. 폴더 하위에 default.vue 파일 생성한다.
+3. 재사용할 코드 내용을 작성한다.
+
+index.vue , default.vue 코드를 다음과 같이 작성한다.
+
+> **pages/index.vue**
+
+```javascript
+<template>
+  <div>
+    <h2>Home</h2>
+    <p>
+      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae earum
+      numquam sapiente. Pariatur, provident blanditiis omnis molestiae quaerat
+      eum! Maiores ut ratione tempore. Aut error accusamus dolore distinctio
+      velit! Assumenda.
+    </p>
+  </div>
+</template>
+
+<script setup></script>
+
+<style scoped>
+h2 {
+  margin-bottom: 20px;
+  font-size: 36px;
+}
+p {
+  margin: 20px 0;
+}
+</style>
+
+
+```
+
+- .router-link-exact-active
+- 현재 활성화된 라우터 링크(경로)를 나타내는 클래스.
+
+> **layouts/default.vue**
+
+```javascript
+<template>
+  <div>
+    <header>
+      <nav>
+        <NuxtLink to="/">Nuxt Project</NuxtLink>
+        <ul>
+          <li><NuxtLink to="/">Home</NuxtLink></li>
+          <li><NuxtLink to="/about">About</NuxtLink></li>
+          <li><NuxtLink to="/products">Products</NuxtLink></li>
+        </ul>
+        <a href="/about"> normal link - anchor tag </a>
+      </nav>
+    </header>
+  </div>
+  <!-- output the page content -->
+  <!-- 페이지 구성이 slot으로 처리됨. -->
+  <div>
+    <slot />
+  </div>
+</template>
+
+<style scoped>
+.router-link-exact-active {
+  color: #12b488;
+}
+</style>
+
+```
+
+**Custom layouts - 특정 경로에만 레이아웃 처리**
+
+특정 경로에만 특정 레이아웃을 주고 싶을때 layouts 폴더에 vue파일을 새롭게 생성해서 관리한다.
+
+- 파일이름과 경로가 같지 않아도 된다.
+
+작성된 레이아웃 파일을 적용하고자 하는 페이지의 script 태그에 definePageMeta() 함수를 사용하여 적용한다.
+
+> layouts/products.vue
+
+```javascript
+<template>
+  <div>
+    <header>
+      <nav>
+        <NuxtLink to="/products">Nuxt Project items</NuxtLink>
+      </nav>
+    </header>
+  </div>
+  <div>
+    <slot />
+  </div>
+  <footer>
+    <ul>
+      <li><NuxtLink to="/">Home</NuxtLink></li>
+      <li><NuxtLink to="/about">About</NuxtLink></li>
+      <li><NuxtLink to="/products">Products</NuxtLink></li>
+    </ul>
+  </footer>
+</template>
+
+<style scoped>
+.router-link-exact-active {
+  color: #12b488;
+}
+</style>
+```
+
+> **pages/products 폴더내 모든 vue 파일에 script 적용**

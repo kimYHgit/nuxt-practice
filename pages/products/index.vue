@@ -1,9 +1,13 @@
 <template>
   <div>
-    <p>sdasdasdasdasdasds</p>
+    <h1>Products 페이지</h1>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+definePageMeta({
+  layout: "products",
+});
+</script>
 
 <style scoped></style>

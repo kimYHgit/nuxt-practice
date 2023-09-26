@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>products/items</h1>
     <p>
       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur
       atque aliquid, architecto deleniti provident amet, consequuntur illum
@@ -9,6 +10,10 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+definePageMeta({
+  layout: "products",
+});
+</script>
 
 <style scoped></style>
