@@ -633,16 +633,10 @@ body {
 - https://nuxt.com/docs/getting-started/data-fetching#usefetch
 - https://nuxt.com/docs/api/composables/use-fetch#usefetch
 
-Nuxt에는 브라우저 또는 서버 환경에서 데이터 불러오기를 수행할 수 있는 두 가지 컴포저블과 내장 라이브러리인 useFetch, useAsyncData 및 $fetch가 포함되어 있습니다.
-이 라이브러리를 함께 사용하면 환경 간 호환성과 효율적인 캐싱을 보장하고 중복 네트워크 호출을 방지할 수 있습니다.
-
-useFetch는 컴포넌트 설정 함수에서 데이터 불러오기를 처리하는 가장 간단한 방법입니다.
-
-반면에 사용자 상호작용을 기반으로 네트워크 요청을 하고자 할 때는 거의 항상 $fetch가 적합한 핸들러입니다.
-
-보다 세분화된 제어가 필요한 경우, useAsyncData와 $fetch 컴포저블을 독립적으로 사용할 수 있습니다.
+Nuxt에는 브라우저 또는 서버 환경에서 데이터 불러오기를 수행할 수 있는 두 가지 컴포저블과 내장 라이브러리인 useFetch, useAsyncData 및 $fetch가 포함되어 있다.
 
 **상품 목록을 구성할 데이터를 받아오는 API 서버는 다음을 활용한다.**
+
 **https://fakestoreapi.com/**
 
 **전체 상품의 정보를 나타내기**
@@ -711,6 +705,9 @@ definePageMeta({
 
 **전체 상품 페이지 수정**
 
+- 디렉티브(v-for, :product)와 클래스(class)를 활용하여 제품 목록을 그리드 형식으로 표시함.
+- Vue 컴포넌트 템플릿 코드를 다음과 같이 작성한다.
+
 > **index.vue**
 
 ```javascript
@@ -725,19 +722,23 @@ definePageMeta({
 </template>
 ```
 
-이 코드는 Vue.js를 사용한 웹 애플리케이션의 Vue 컴포넌트 내에서 작성된 템플릿 코드입니다. 이 코드는 제품 카드(ProductCard)를 표시하는데 사용되며, Vue.js의 디렉티브(v-for, :product)와 클래스(class)를 활용하여 제품 목록을 그리드 형식으로 표시합니다. 코드를 단계별로 설명하겠습니다:
+1. `<div class="grid grid-cols-4 gap-5">`
 
-1. `<template>`: 이 부분은 Vue 컴포넌트의 템플릿을 정의하는 부분입니다. Vue 컴포넌트는 HTML 템플릿과 JavaScript 로직을 결합한 구조를 가지며, 여기서는 템플릿 부분을 정의하고 있습니다.
+- `grid` 클래스는 그리드 레이아웃을 정의
+- `grid-cols-4` 클래스는 열의 수를 4로 지정.
+- `gap-5` 클래스는 그리드 요소 사이의 간격
 
-2. `<div>`: 컴포넌트 내부에 있는 최상위 `<div>` 요소입니다. 이 부분은 컴포넌트의 루트 엘리먼트로 사용됩니다.
+2. `<div v-for="p in products">`:
 
-3. `<div class="grid grid-cols-4 gap-5">`: 이 `<div>` 요소는 CSS 클래스를 사용하여 그리드 형식의 레이아웃을 생성합니다. `grid` 클래스는 그리드 레이아웃을 정의하고, `grid-cols-4` 클래스는 열의 수를 4로 지정합니다. 즉, 4열의 그리드가 생성됩니다. `gap-5` 클래스는 그리드 요소 사이의 간격을 설정합니다.
+- `v-for` 디렉티브를 사용하여 반복 작업을 수행
+- `products` 데이터 속성을 기반으로 반복 작업을 수행하며, 각 반복마다 변수 `p`에 할당.
 
-4. `<div v-for="p in products">`: 이 부분은 Vue.js의 `v-for` 디렉티브를 사용하여 반복 작업을 수행합니다. `products`라는 데이터 속성을 기반으로 반복 작업을 수행하며, 각 반복마다 변수 `p`에 현재 제품을 할당합니다.
+3. `<ProductCard :product="p" />`
 
-5. `<ProductCard :product="p" />`: 이 부분은 커스텀 컴포넌트인 `ProductCard`를 렌더링합니다. `:product="p"` 부분은 `ProductCard` 컴포넌트에 `product`라는 속성을 전달하고, 해당 속성에는 현재 반복되고 있는 제품(`p`)이 전달됩니다.
+- 커스텀 컴포넌트인 `ProductCard`를 렌더링.
+- `:product="p"` 부분은 `ProductCard` 컴포넌트에 `product`라는 속성을 전달
 
-따라서, 이 코드는 `products` 배열에 있는 제품들을 그리드 형식으로 표시하고, 각 제품은 `ProductCard` 컴포넌트로 렌더링되며 해당 제품의 정보를 표시합니다. Vue.js를 사용하면 데이터와 뷰를 간단하게 연결하여 동적 웹 페이지를 만들 수 있습니다.
+컴포넌트 내에서 동적으로 바인딩된 제품 이미지와 제목을 표시하고, "View Detail" 버튼을 클릭하면 해당 제품의 상세 정보 페이지로 이동
 
 > **components/ProductCard.vue**
 
@@ -766,27 +767,45 @@ const { product } = defineProps(["product"]);
 
 ```
 
-이 코드는 Vue 3의 Composition API를 사용하여 작성된 Vue 컴포넌트의 템플릿 부분과 `<script setup>` 영역을 포함하고 있습니다. 이 컴포넌트는 제품 카드를 표시하는 역할을 합니다. 코드를 단계별로 설명하겠습니다:
+- Composition API를 사용
+- 컴포넌트의 템플릿 부분과 `<script setup>` 영역
 
-**<template> 부분:**
+**템플릿 코드**
 
-1. `<div class="card text-center">`: 이 부분은 제품 카드의 루트 엘리먼트로 사용되는 `<div>` 요소입니다. `card`와 `text-center` 클래스가 적용되어 있어, 제품 카드는 가운데 정렬되고, 스타일링이 적용되는 것으로 보입니다.
+1. `<div class="card text-center">`
 
-2. `<img :src="product.image" alt="product thumb" class="thumb" />`: 이 부분은 제품의 이미지를 나타내는 `<img>` 요소입니다. `:src` 디렉티브를 사용하여 이미지의 `src` 속성을 `product.image` 값으로 동적으로 바인딩합니다. 이미지의 대체 텍스트는 "product thumb"로 설정되며, `thumb` 클래스가 적용되어 이미지 스타일을 정의합니다.
+- 제품 카드의 루트 엘리먼트로 사용되는 `<div>` 요소입니다. `card`와 `text-center` 클래스가 적용되어 있어, 제품 카드는 가운데 정렬되고, 스타일링이 적용되는 것으로 보입니다.
 
-3. `<p class="font-bold text-garay-500 m-4 truncate">{{ product.title }}</p>`: 이 부분은 제품의 제목을 나타내는 `<p>` 요소입니다. `font-bold`, `text-garay-500`, `m-4`, 그리고 `truncate` 클래스가 사용되어 텍스트 스타일을 설정합니다. 제품의 제목은 `{{ product.title }}` 템플릿 보간을 사용하여 동적으로 표시됩니다.
+2. `<img :src="product.image" alt="product thumb" class="thumb" />`
 
-4. `<NuxtLink :to="`/products/${product.id}`">`: 이 부분은 Vue.js 프레임워크 내에서 라우팅을 처리하는 `NuxtLink` 컴포넌트를 사용하여 제품 상세 정보 페이지로 이동하는 링크를 생성합니다. `:to` 디렉티브를 사용하여 동적으로 `product.id`를 기반으로 URL을 생성합니다.
+- 제품의 이미지
+- `:src` 디렉티브를 사용하여 이미지의 `src` 속성을 `product.image` 값으로 동적으로 바인딩.
+- 이미지의 대체 텍스트는 "product thumb"로 설정되며, `thumb` 클래스가 적용
 
-5. `<p class="btn my-4">View Detail</p>`: 이 부분은 "View Detail" 버튼을 나타냅니다. `btn` 클래스가 버튼 스타일을 정의하고, `my-4` 클래스가 위아래 여백을 설정합니다.
+3. `<p class="font-bold text-garay-500 m-4 truncate">{{ product.title }}</p>`
 
-**<script setup> 부분:**
+- 제품의 제목을 나타내는 `<p>` 요소.
+- `font-bold`, `text-garay-500`, `m-4`, 그리고 `truncate` 클래스가 사용
+- `{{ product.title }}` 템플릿 보간
 
-`<script setup>` 부분은 Vue 3의 Composition API에서 사용되는 새로운 방식으로 컴포넌트의 데이터와 프로퍼티를 설정합니다.
+4. `<NuxtLink :to="`/products/${product.id}`">`
 
-1. `const { product } = defineProps(["product"]);`: 이 코드는 부모 컴포넌트로부터 `product` 프로퍼티를 전달받아 컴포넌트 내부에서 사용할 수 있도록 설정합니다. 이를 통해 제품 데이터를 템플릿에서 사용할 수 있게 됩니다.
+- `NuxtLink` 컴포넌트를 사용하여 링크를 생성
+- `:to` 디렉티브를 사용하여 동적으로 `product.id`를 기반으로 URL을 생성.
 
-총론적으로, 이 코드는 Vue 컴포넌트를 정의하고, 컴포넌트 내에서 동적으로 바인딩된 제품 이미지와 제목을 표시하고, "View Detail" 버튼을 클릭하면 해당 제품의 상세 정보 페이지로 이동하는 역할을 합니다. Vue 3의 Composition API와 Nuxt.js의 라우팅을 사용하여 제품 카드를 렌더링합니다.
+5. `<p class="btn my-4">View Detail</p>`
+
+- `btn` 클래스가 버튼 스타일을 정의
+- `my-4` 클래스가 위아래 여백을 설정.
+
+**script setup 부분:**
+
+- Composition API
+- 컴포넌트의 데이터와 프로퍼티를 설정.
+
+1. `const { product } = defineProps(["product"]);`
+
+- 부모 컴포넌트로부터 `product` 프로퍼티를 전달받아 컴포넌트 내부에서 사용할 수 있도록 설정
 
 > css/tailwind.css
 
@@ -826,7 +845,7 @@ const { product } = defineProps(["product"]);
 
 <script setup>
 const { product } = defineProps(["product"]);
-</script>
+</>
 
 <style scoped>
 img {
@@ -850,24 +869,48 @@ template 부분을 수정한다.
 
 ## 참고 - vue 디렉티브
 
-- Nuxt.js에서 Vue.js의 디렉티브들을 주로 사용할 수 있습니다.
-- Vue.js 디렉티브는 HTML 요소에 특별한 속성(attribute) 형태로 추가되어 해당 요소의 동작을 제어하거나 데이터와 뷰를 바인딩할 때 사용됩니다.
+- Nuxt.js에서 Vue.js의 디렉티브들을 사용할 수 있음.
+- Vue.js 디렉티브는 HTML 요소에 속성(attribute) 형태로 추가되어 해당 요소의 동작을 제어하거나 데이터와 뷰를 바인딩할 때 사용됨.
 - 화면에 데이터를 렌더링하고 사용자 상호작용을 처리
 
-1. **v-if / v-else-if / v-else**: 이 디렉티브는 조건부 렌더링을 처리할 때 사용됩니다. `v-if`는 주어진 조건이 `true`일 때 해당 요소를 렌더링하고, `v-else-if` 및 `v-else`는 이전 조건이 `false`일 때 렌더링될 요소를 정의합니다.
+1. **v-if / v-else-if / v-else**
 
-2. **v-for**: 배열을 순회하며 여러 번 요소를 렌더링하는 데 사용됩니다. 예를 들어, 반복문을 사용하여 목록을 생성하거나 데이터를 표시하는 데 유용합니다.
+- 조건부 렌더링을 처리할 때 사용
+- `v-if`는 주어진 조건이 `true`일 때 해당 요소를 렌더링
+- `v-else-if` 및 `v-else`는 이전 조건이 `false`일 때 렌더링될 요소를 정의.
 
-3. **v-bind (단축표현 :)**: `v-bind` 또는 단축 표현 `:`은 요소의 속성과 Vue 인스턴스의 데이터를 연결합니다. 예를 들어, `:src` 디렉티브를 사용하여 이미지의 `src` 속성을 동적으로 설정할 수 있습니다.
+2. **v-for**
 
-4. **v-on (단축표현 @)**: `v-on` 또는 단축 표현 `@`은 이벤트 처리기를 등록하고 HTML 요소의 이벤트를 Vue.js 메소드와 연결합니다. 클릭, 입력, 마우스 오버 및 기타 이벤트에 대한 처리기를 정의할 수 있습니다.
+- 배열을 순회하며 여러 번 요소를 렌더링하는 데 사용
+- 예를 들어, 반복문을 사용하여 목록을 생성하거나 데이터를 표시.
 
-5. **v-model**: 이 디렉티브는 양방향 데이터 바인딩을 제공합니다. 입력 요소의 값과 Vue 데이터 속성을 자동으로 동기화하므로 사용자의 입력을 Vue 데이터에 반영하고 반대로 Vue 데이터를 입력 요소에 반영할 수 있습니다.
+3. **v-bind (단축표현 :)**
 
-6. **v-show**: `v-show`는 요소를 숨기거나 보이게 하는 데 사용됩니다. `v-if`와 달리 요소는 항상 렌더링되며 CSS `display` 속성을 통해 숨김 또는 표시됩니다.
+- `v-bind` 또는 단축 표현 `:`은 요소의 속성과 Vue 인스턴스의 데이터를 연결.
+- 예를 들어, `:src` 디렉티브를 사용하여 이미지의 `src` 속성을 동적으로 설정할 수 있음.
 
-7. **v-pre**: `v-pre` 디렉티브는 해당 요소와 하위 요소에 대한 컴파일을 건너뛰도록 지시합니다. 이는 성능 향상을 위해 사용되며, 요소의 내용은 Vue.js 템플릿 컴파일러에 의해 처리되지 않습니다.
+4. **v-on (단축표현 @)**
 
-8. **v-cloak**: `v-cloak` 디렉티브는 Vue 인스턴스가 초기화될 때까지 요소를 감추기 위해 사용됩니다. 주로 CSS 스타일링과 함께 사용하여 초기화 시 화면에서 플래시되는 문제를 해결합니다.
+- `v-on` 또는 단축 표현 `@`은 이벤트 핸들러를 등록하고 HTML 요소의 이벤트를 Vue.js 메서드와 연결
+- 클릭, 입력, 마우스 오버 및 기타 이벤트에 대한 핸들러를 정의할 수 있음.
 
-9. **v-pre**: `v-pre` 디렉티브는 요소와 하위 요소를 Vue 인스턴스 초기화에서 제외하는 데 사용됩니다. 이로써 요소와 하위 요소가 Vue 인스턴스 초기화를 기다릴 필요가 없어집니다.
+5. **v-model**
+
+- 양방향 데이터 바인딩을 제공
+- 입력 요소의 값과 Vue 데이터 속성을 자동으로 동기화하므로 사용자의 입력을 Vue 데이터에 반영하고 반대로 Vue 데이터를 입력 요소에 반영할 수 있음.
+
+6. **v-show**
+
+- 요소를 숨기거나 보이게 하는 데 사용.
+- `v-if`와 달리 요소는 항상 렌더링되며 CSS `display` 속성을 통해 숨김 또는 표시됨.
+
+7. **v-pre**
+
+- 해당 요소와 하위 요소에 대한 컴파일을 건너뛰도록 지시.
+- 요소와 하위 요소를 Vue 인스턴스 초기화에서 제외하는 데 사용.
+- 이는 성능 향상을 위해 사용되며, 요소의 내용은 Vue.js 템플릿 컴파일러에 의해 처리되지 않음.
+
+8. **v-cloak**
+
+- Vue 인스턴스가 초기화될 때까지 요소를 감추기 위해 사용
+- 주로 CSS 스타일링과 함께 사용하여 초기화 시 화면에서 플래시되는 문제를 해결함.
